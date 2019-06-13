@@ -1,16 +1,15 @@
 package calculator;
 
 import javax.swing.*;
-import java.awt.event.*;
- 
+import java.awt.event.*; 
  
 class Calc implements ActionListener
 {
 	JFrame f;
 	JTextField t;
-	JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,bdiv,bmul,bsub,badd,bdec,beq,bdel,bclr;
- 
-	static double a=0,b=0,result=0;
+	JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,be,bdiv,bfac,bmul,bsub,badd,bper,brtd,bdtr,bpow,bpi,bdec,beq,bdel,bclr,bsqrt;
+	
+	static double a=0,b=0,result=0,degree,radian;
 	static int operator=0;
  
 	Calc()
@@ -27,38 +26,53 @@ class Calc implements ActionListener
 		b8=new JButton("8");
 		b9=new JButton("9");
 		b0=new JButton("0");
+		be=new JButton("e");
 		bdiv=new JButton("/");
 		bmul=new JButton("*");
 		bsub=new JButton("-");
 		badd=new JButton("+");
 		bdec=new JButton(".");
+		bpow=new JButton("^");
 		beq=new JButton("=");
+		bper=new JButton("%");
+		bpi=new JButton("Pi");
+		bsqrt=new JButton("Sqrt");
+		bfac=new JButton("x!");
+		bdtr=new JButton("DtoR");
+		brtd=new JButton("RtoD");
 		bdel=new JButton("Delete");
 		bclr=new JButton("Clear");
 		
-		t.setBounds(30,40,280,30);
-		b7.setBounds(40,100,50,40);
-		b8.setBounds(110,100,50,40);
-		b9.setBounds(180,100,50,40);
-		bdiv.setBounds(250,100,50,40);
+		t.setBounds(40,40,280,30);
+		b7.setBounds(50,100,70,60);
+		b8.setBounds(130,100,70,60);
+		b9.setBounds(210,100,70,60);
+		bdiv.setBounds(290,100,70,60);
 		
-		b4.setBounds(40,170,50,40);
-		b5.setBounds(110,170,50,40);
-		b6.setBounds(180,170,50,40);
-		bmul.setBounds(250,170,50,40);
+		b4.setBounds(50,170,70,60);
+		b5.setBounds(130,170,70,60);
+		b6.setBounds(210,170,70,60);
+		bmul.setBounds(290,170,70,60);
 		
-		b1.setBounds(40,240,50,40);
-		b2.setBounds(110,240,50,40);
-		b3.setBounds(180,240,50,40);
-		bsub.setBounds(250,240,50,40);
+		b1.setBounds(50,240,70,60);
+		b2.setBounds(130,240,70,60);
+		b3.setBounds(210,240,70,60);
+		bsub.setBounds(290,240,70,60);
 		
-		bdec.setBounds(40,310,50,40);
-		b0.setBounds(110,310,50,40);
-		beq.setBounds(180,310,50,40);
-		badd.setBounds(250,310,50,40);
-		
-		bdel.setBounds(60,380,100,40);
-		bclr.setBounds(180,380,100,40);
+		bdec.setBounds(50,310,70,60);
+		b0.setBounds(130,310,70,60);
+		beq.setBounds(210,310,70,60);
+		badd.setBounds(290,310,70,60);
+		bper.setBounds(370,100,70,60);
+		bfac.setBounds(450,100,70,60);
+		bpow.setBounds(370,170,70,60);
+		bdtr.setBounds(450,170,70,60);
+		bpi.setBounds(370,240,70,60);
+		brtd.setBounds(450,240,70,60);
+		bsqrt.setBounds(370,310,70,60);
+		be.setBounds(450,310,70,60);
+		bdel.setBounds(130,380,100,40);
+		bclr.setBounds(250,380,100,40);
 		
 		f.add(t);
 		f.add(b7);
@@ -72,6 +86,7 @@ class Calc implements ActionListener
 		f.add(b1);
 		f.add(b2);
 		f.add(b3);
+		f.add(be);
 		f.add(bsub);
 		f.add(bdec);
 		f.add(b0);
@@ -79,10 +94,16 @@ class Calc implements ActionListener
 		f.add(badd);
 		f.add(bdel);
 		f.add(bclr);
-		
+		f.add(bpow);
+		f.add(bper);
+		f.add(bpi);
+		f.add(bsqrt);
+		f.add(bfac);
+		f.add(bdtr);
+		f.add(brtd);
 		f.setLayout(null);
 		f.setVisible(true);
-		f.setSize(350,500);
+		f.setSize(600,500);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setResizable(false);
 		
@@ -96,11 +117,19 @@ class Calc implements ActionListener
 		b8.addActionListener(this);
 		b9.addActionListener(this);
 		b0.addActionListener(this);
+		be.addActionListener(this);
 		badd.addActionListener(this);
 		bdiv.addActionListener(this);
 		bmul.addActionListener(this);
 		bsub.addActionListener(this);
 		bdec.addActionListener(this);
+		bpow.addActionListener(this);
+		bper.addActionListener(this);
+		bpi.addActionListener(this);
+		bsqrt.addActionListener(this);
+		bfac.addActionListener(this);
+		bdtr.addActionListener(this);
+		brtd.addActionListener(this);
 		beq.addActionListener(this);
 		bdel.addActionListener(this);
 		bclr.addActionListener(this);
@@ -168,34 +197,146 @@ class Calc implements ActionListener
 			operator=4;
 			t.setText("");
 		}
-		
+		if(e.getSource()==bpow)
+		{
+			a=Double.parseDouble(t.getText());
+			operator=5;
+			t.setText("");
+		}
+		if(e.getSource()==bper)
+		{
+			a=Double.parseDouble(t.getText());
+			operator=6;
+			t.setText("");
+		}
+		if(e.getSource()==bpi)
+		{
+			a=Double.parseDouble(t.getText());
+			operator=7;
+			t.setText("");
+		}
+		if(e.getSource()==bsqrt)
+		{
+			a=Double.parseDouble(t.getText());
+			operator=8;
+			t.setText("");
+		}
+		if(e.getSource()==bfac)
+		{
+			a=Double.parseDouble(t.getText());
+			operator=9;
+			t.setText("");
+		}
+		if(e.getSource()==bdtr)
+		{
+			degree=Double.parseDouble(t.getText());
+			operator=10;
+			t.setText("");
+		}
+		if(e.getSource()==brtd)
+		{
+			radian=Double.parseDouble(t.getText());
+			operator=11;
+			t.setText("");
+		}
+		if(e.getSource()==be)
+		{
+			a=Double.parseDouble(t.getText());
+			operator=12;
+			t.setText("");
+		}
 		if(e.getSource()==beq)
 		{
-			b=Double.parseDouble(t.getText());
 		
 			switch(operator)
 			{
-				case 1: result=a+b;
+				case 1:
+				{
+					b=Double.parseDouble(t.getText());
+					result=a+b;
 					break;
-		
-				case 2: result=a-b;
+				}
+				case 2:
+				{
+					b=Double.parseDouble(t.getText());
+					result=a-b;
 					break;
-		
-				case 3: result=a*b;
+				}
+				case 3: 
+				{
+					b=Double.parseDouble(t.getText());
+					result=a*b;
 					break;
-		
-				case 4: result=a/b;
+				}
+				case 4: 
+				{
+					b=Double.parseDouble(t.getText());
+					result=a/b;
 					break;
-		
-				default: result=0;
+				}	
+				case 5: 
+				{
+					b=Double.parseDouble(t.getText());
+					result=Math.pow(a, b);
+					break;
+				}	
+				
+				case 6:
+				{
+					b=Double.parseDouble(t.getText());
+					result=a*(b/100);
+					break;
+				}
+				case 7: 
+				{
+					b=1;
+					result=3.141*a;
+					break;
+				}
+				case 8:
+				{
+					b=1;
+					result=Math.sqrt(a);
+					break;
+				}
+				case 9:
+				{
+					double fact=1;
+					b=1;
+					for(int i=1;i<=a;i++)
+					{
+						fact=fact*i;
+					}
+					result=fact;
+					break;
+				}
+				case 10:
+				{
+					radian = degree*(3.141592/180);
+					result= radian;
+					break;
+				}
+				case 11:
+				{
+					degree=radian*(180/3.141592);
+					result=degree;
+					break;
+				}
+				case 12:
+				{
+					b=1;
+					result=2.718*a;
+					break;
+				}
 			}
-		
-			t.setText(""+result);
+			
+			t.setText(""+result);	
 		}
 		
 		if(e.getSource()==bclr)
+		{
 			t.setText("");
-		
+		}
 		if(e.getSource()==bdel)
 		{
 			String s=t.getText();
